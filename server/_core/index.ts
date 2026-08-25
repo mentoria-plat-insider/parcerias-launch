@@ -6,8 +6,14 @@ import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { registerOAuthRoutes } from "./oauth";
 import { registerStorageProxy } from "./storageProxy";
 import { appRouter } from "../routers";
+import { ensureOwnerAdmin } from "../db";
 import { createContext } from "./context";
 import { serveStatic, setupVite } from "./vite";
+import {
+  createRateLimiter,
+  noStoreApiResponses,
+  securityHeaders,
+} from "../security";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -31,6 +37,32 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
 async function startServer() {
   const app = express();
   const server = createServer(app);
+  app.set("trust proxy", 1);
+  app.disable("x-powered-by");
+  await ensureOwnerAdmin();
+  app.use(
+    securityHeaders({
+      isProduction: process.env.NODE_ENV === "production",
+      analyticsEndpoint: process.env.VITE_ANALYTICS_ENDPOINT,
+    })
+  );
+  app.use("/api", noStoreApiResponses);
+  app.use(
+    "/api",
+    createRateLimiter({
+      namespace: "api",
+      maxRequests: 120,
+      windowMs: 60_000,
+    })
+  );
+  app.use(
+    "/api/oauth/callback",
+    createRateLimiter({
+      namespace: "oauth-callback",
+      maxRequests: 20,
+      windowMs: 5 * 60_000,
+    })
+  );
   // Configure body parser with larger size limit for file uploads
   app.use(express.json({ limit: "50mb" }));
   app.use(express.urlencoded({ limit: "50mb", extended: true }));

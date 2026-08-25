@@ -1,0 +1,48 @@
+name: Qualidade
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  validar:
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    env:
+      JWT_SECRET: ci-only-test-secret-not-for-production
+      OAUTH_SERVER_URL: https://oauth.invalid
+      VITE_OAUTH_PORTAL_URL: https://portal.invalid
+    steps:
+      - name: Obter código
+        uses: actions/checkout@v5
+
+      - name: Configurar pnpm
+        uses: pnpm/action-setup@v6
+        with:
+          run_install: false
+
+      - name: Configurar Node.js
+        uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+
+      - name: Instalar dependências
+        run: pnpm install --frozen-lockfile
+
+      - name: Executar testes
+        run: pnpm test:ci
+
+      - name: Verificar TypeScript
+        run: pnpm run check
+
+      - name: Verificar dependências de produção
+        run: pnpm audit --prod
+
+      - name: Gerar build
+        run: pnpm build

@@ -59,4 +59,14 @@ describe("auth.logout", () => {
       path: "/",
     });
   });
+
+  it("permite encerrar uma sessão já expirada sem vazar erro para a interface", async () => {
+    const { ctx, clearedCookies } = createAuthContext();
+    ctx.user = null;
+    const caller = appRouter.createCaller(ctx);
+
+    await expect(caller.auth.logout()).resolves.toEqual({ success: true });
+    expect(clearedCookies).toHaveLength(1);
+    expect(clearedCookies[0]?.name).toBe(COOKIE_NAME);
+  });
 });

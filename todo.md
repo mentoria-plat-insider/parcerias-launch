@@ -1,0 +1,240 @@
+- [x] Extrair do manual Insider as regras finais de logo, cores, contraste e área de respiro
+- [x] Escolher quais arquivos oficiais usar no site (logo horizontal, isotipo e versões clara/escura)
+- [x] Atualizar tokens visuais globais no tema para a paleta azul-marinho/lavanda da marca
+- [x] Substituir logos, favicon e elementos gráficos atuais pelos ativos oficiais do Insider
+- [x] Ajustar landing e painéis para aderirem à nova identidade visual sem perder legibilidade
+- [x] Validar visualmente as páginas principais, salvar checkpoint e entregar a nova versão
+
+- [x] Extrair as regras de negócio, fluxos e critérios de acesso do levantamento preenchido
+- [x] Comparar os requisitos oficiais com o protótipo de parcerias já implementado
+- [x] Consolidar prioridades, lacunas e decisões que exigem validação do negócio
+- [x] Preparar uma especificação de implementação para a próxima rodada de desenvolvimento
+
+- [x] Mapear componentes e fluxos afetados pelas regras validadas
+- [x] Remover a lógica de score, match sugerido e aceite de parceria do protótipo
+- [x] Reestruturar os dados para um projeto por Expert, triagem manual e interesse em reunião
+- [x] Transformar a visão do Lançador em catálogo de projetos elegíveis
+- [x] Restringir a visão do Expert ao próprio projeto e seus pedidos de reunião
+- [x] Atualizar o painel administrativo para validação e triagem qualitativa
+- [x] Validar as três visões, salvar checkpoint e entregar a revisão
+
+- [x] Consolidar código, documentação e ativos de identidade no pacote de transferência
+- [x] Gerar e conferir o arquivo ZIP de handoff para outra inteligência artificial
+
+- [x] Classificar as funcionalidades pendentes entre validação visual e operação real
+- [x] Definir o roteiro de testes para Administrador, Expert e Lançador
+- [x] Orientar a publicação controlada e o compartilhamento do link de validação
+
+- [x] Definir paleta clara neutra e paleta escura institucional com contraste acessível
+- [x] Criar alternância persistente entre modo claro e escuro
+- [x] Ajustar landing, painéis, navegação e indicadores para ambos os temas
+- [x] Validar visualmente os dois modos e publicar a atualização
+
+- [x] Definir o diagrama BPMN do fluxo validado de parcerias e seus responsáveis
+- [x] Integrar o visualizador BPMN.io ao painel administrativo
+- [x] Validar o diagrama no sistema e publicar a atualização
+
+- [x] Corrigir contraste do logo, navegação e sessão na barra lateral
+- [x] Refinar o estado ativo para reduzir o peso visual do azul
+- [x] Validar a barra lateral em modo claro e escuro e publicar a correção
+
+- [x] Aplicar a variante correta do logo para fundos claros e escuros
+- [x] Remover o divisor vertical residual da landing e dos painéis
+- [x] Validar as correções nos dois temas e publicar a atualização
+
+- [x] Definir etapas, campos obrigatórios e exemplos do cadastro de projeto de Expert
+- [x] Criar telas navegáveis de cadastro, revisão e envio para validação do negócio
+- [x] Documentar os campos propostos, validar visualmente e publicar o protótipo
+
+- [x] Alinhar rótulos, textos auxiliares e controles nas colunas do formulário
+- [x] Exibir a logo branca sobre base azul-marinho na barra lateral do modo claro
+- [x] Validar as correções visualmente e publicar a atualização
+
+- [x] Auditar responsividade das telas principais em viewport móvel
+- [x] Revisar navegação por teclado, foco visível e semântica dos controles
+- [x] Corrigir os pontos de maior impacto na experiência móvel e acessível
+- [x] Validar as correções em desktop e mobile, salvar checkpoint e publicar a atualização
+
+- [x] Mapear arquitetura, ativos, dados simulados e superfícies de exposição
+- [x] Revisar controles de autenticação, autorização, dados e dependências
+- [x] Consolidar lacunas, riscos e recomendações priorizadas de segurança
+- [x] Entregar o diagnóstico e um roteiro seguro de implementação
+
+- [x] Confirmar as decisões de identidade, convite e gestão de acesso
+- [x] Habilitar a infraestrutura full stack com autenticação e banco de dados
+- [x] Aplicar o schema inicial no banco e confirmar as tabelas de autenticação
+- [x] Validar login Manus, persistência básica de usuário e rotas existentes
+- [x] Revisar a integração final da infraestrutura sem regressões
+- [x] Validar as rotas de Administrador, Expert e Lançador após o upgrade full stack
+- [x] Testar login Manus, sessão e acesso às telas protegidas ponta a ponta
+- [x] Definir inscrição pública na comunidade com aprovação administrativa e Administrador inicial
+- [x] Implementar inscrições públicas pendentes por perfil e o Administrador inicial do projeto
+- [x] Implementar o modelo persistente e as permissões de Administrador, Expert e Lançador
+- [x] Criar perfis operacionais ao aprovar uma inscrição de Expert ou Lançador
+- [x] Criar perfis operacionais ao aprovar uma inscrição de Expert ou Lançador
+- [x] Implementar procedures tRPC protegidas por papel para projetos, triagem, catálogo, interesses e reuniões
+- [x] Conectar cadastro, triagem, catálogo, interesse e reuniões aos dados reais
+- [x] Validar regras de segurança e os fluxos completos antes da publicação
+- [x] Publicar a versão operacional e documentar a administração do sistema
+
+- [ ] Definir o provedor e o fluxo de autenticação por e-mail com link mágico
+- [ ] Substituir o bloqueio de cadastro baseado em Manus por acesso próprio do sistema
+- [ ] Configurar a conta Administrador inicial e a recuperação de acesso
+- [x] Implementar modo de visualização administrativa para Expert e Lançador sem personificação
+- [ ] Validar sessão, aprovação e privacidade dos três perfis antes da publicação
+
+- [x] Provisionar o proprietário atual como Administrador inicial do sistema
+- [x] Criar visualizações administrativas seguras para Expert e Lançador
+
+- [x] Adicionar Arthur Lobo como Administrador autorizado pendente de primeiro acesso
+- [x] Criar módulo administrativo para listar e adicionar Administradores por nome e e-mail
+- [x] Registrar eventos de inclusão de Administradores em auditoria
+- [x] Validar que somente Administradores podem gerir outros Administradores
+- [x] Adicionar testes de autorização para bloquear inclusão e revogação por usuário não-admin
+- [x] Validar explicitamente adminAccess.add e adminAccess.revoke com usuário autenticado sem papel admin
+
+- [x] Atualizar Arthur Lobo como dono do processo e Administrador ativo
+- [x] Criar dois registros demonstrativos identificados para validar a triagem administrativa
+- [x] Distinguir visualmente dados de validação no painel administrativo
+- [x] Validar e publicar o cenário administrativo de teste
+- [x] Adicionar identificação visual por registro para dados fictícios no painel administrativo
+- [x] Validar visualmente o cenário administrativo de teste após destacar individualmente os registros demonstrativos
+- [x] Aplicar a etiqueta visual de validação também na agenda administrativa e nas listas de Experts/Lançadores do painel Admin
+- [x] Revalidar visualmente o cenário administrativo completo após a identificação individual aparecer de forma consistente em todas as áreas relevantes
+- [x] Habilitar um modo operacional de validação para o Administrador testar os fluxos de Expert e Lançador
+- [x] Garantir que o modo operacional administrativo utilize somente registros demonstrativos identificados
+- [x] Validar as ações habilitadas e publicar a atualização de teste
+- [x] Aprovar e provisionar o Lançador demonstrativo para habilitar imediatamente a operação dos dois perfis
+- [x] Restringir o catálogo e os interesses do modo de validação aos projetos demonstrativos identificados
+- [x] Cobrir com testes o isolamento que impede o modo de validação de ler ou alterar registros reais
+- [x] Aprovar e provisionar o Lançador demonstrativo para habilitar imediatamente a operação dos dois perfis
+- [x] Restringir o catálogo e os interesses do modo de validação aos projetos demonstrativos identificados
+- [x] Cobrir com testes o isolamento que impede o modo de validação de ler ou alterar registros reais
+- [x] Adicionar testes de integração que comprovem que o catálogo demonstrativo exclui projetos reais
+- [x] Garantir em teste que interesses demonstrativos rejeitam projetos fora do conjunto fictício
+- [x] Confirmar em teste que interesses e reuniões reais não são expostos no modo operacional administrativo
+- [x] Adicionar teste ponta a ponta de rejeição de projeto elegível real pela declaração demonstrativa de interesse
+- [x] Criar e remover automaticamente uma fixture elegível não demonstrativa para testar a rejeição ponta a ponta
+- [x] Executar o fluxo demonstrativo de Expert e Lançador com persistência e registrar os resultados
+- [x] Adicionar teste de integração do fluxo feliz para edição de projeto e declaração de interesse demonstrativos
+- [x] Adicionar um controle de logout explícito e acessível em todos os painéis autenticados
+- [x] Garantir que o logout encerre a sessão e redirecione de forma segura para a página pública
+- [x] Cobrir o encerramento de sessão com testes e publicar a atualização
+- [x] Publicar uma versão com o controle de logout incluído
+- [x] Validar em sessão autenticada que o botão Sair encerra o acesso e retorna à página pública
+- [x] Remover também os dados locais em cache do usuário ao encerrar a sessão
+- [x] Revisar arquivos sensíveis e preparar o repositório para envio ao GitHub
+- [x] Confirmar conta, organização, nome e visibilidade do repositório GitHub
+- [x] Publicar o código atual no GitHub e verificar o repositório remoto
+- [ ] Diagnosticar o erro invalid_request na autorização da integração GitHub
+- [ ] Retomar a conexão GitHub somente após corrigir a autorização
+- [ ] Identificar a causa exata do invalid_request no fluxo de autorização GitHub
+- [ ] Validar o procedimento compatível para ativar a integração GitHub neste ambiente
+- [x] Registrar o bloqueio e o próximo passo seguro para concluir a conexão GitHub
+- [ ] Validar pela interface de gerenciamento o fluxo oficial de conexão GitHub
+- [ ] Registrar evidência objetiva da conexão habilitada ou do bloqueio reproduzido pela interface
+- [x] Verificar o repositório GitHub criado e confirmar a sincronização inicial do código
+- [x] Associar o repositório recém-criado ao projeto e confirmar a primeira sincronização
+- [ ] Validar pela interface do projeto a reconexão GitHub/Manus após o erro invalid_request
+- [x] Confirmar se a sincronização ativa é da integração GitHub/Manus ou apenas do remoto Git local
+- [x] Validar em lote as rotas públicas e o redirecionamento de acesso das áreas protegidas
+- [x] Registrar evidências de renderização e bloqueio para os painéis de Administrador, Expert e Lançador
+- [x] Executar validação explícita das rotas protegidas sem sessão e registrar o comportamento observado
+- [x] Salvar evidências objetivas das rotas e seus resultados em uma nota operacional versionada
+- [x] Adicionar teste reproduzível da regra de acesso das rotas protegidas no roteamento do frontend
+- [x] Montar o portão de acesso em teste de componente e comprovar o bloqueio sem sessão dos três painéis
+- [x] Cobrir no componente a liberação administrativa do modo operacional declarada pela rota
+- [x] Corrigir o seletor de perfil que desaparece no painel de Lançador ou Expert para Administradores
+- [x] Garantir que Administrador, Expert e Lançador permaneçam acessíveis após qualquer troca de perfil
+- [x] Cobrir a troca de perfil administrativa com teste e publicar a correção
+- [x] Extrair e testar as rotas de destino geradas pelo seletor para Administrador, Expert e Lançador
+- [x] Adicionar teste de componente do seletor cobrindo as transições administrativas entre os três perfis
+- [x] Validar em sessão autenticada que o seletor permanece funcional após cada troca de perfil
+- [x] Remover o motivo gráfico de rotas convergentes do fundo da landing
+- [x] Verificar visualmente a landing sem o elemento gráfico e publicar a correção
+- [x] Reiniciar e verificar o servidor de desenvolvimento para descartar erros transitórios históricos
+- [x] Documentar o fluxo administrativo de inscrições, triagem, catálogo, interesses e agenda
+- [x] Documentar o uso seguro dos perfis demonstrativos e a troca de perfil administrativa
+- [x] Revisar e publicar o guia operacional da Administração junto ao código
+- [x] Sincronizar o guia operacional e as correções recentes no repositório GitHub
+- [x] Estabilizar a verificação automatizada do catálogo demonstrativo em conexões de banco mais lentas
+- [x] Auditar as funcionalidades disponíveis sob as dimensões de operação, permissões, persistência, experiência e segurança
+- [x] Consolidar lacunas de implantação em um roteiro priorizado de curto, médio e longo prazo
+- [x] Corrigir os alertas de alta severidade nas dependências e repetir a auditoria de pacotes
+- [ ] Definir a política operacional de dados pessoais, retenção, exclusão e atendimento a titulares
+- [ ] Implementar autenticação por e-mail com link mágico para participantes sem conta Manus
+- [ ] Homologar ponta a ponta os fluxos reais de Administrador, Expert e Lançador com contas de teste
+- [x] Adicionar limitação de taxa e cabeçalhos HTTP de segurança na publicação
+- [x] Reduzir a duração da sessão administrativa/OAuth e ajustar a criação do token para expiração compatível com produção
+- [x] Implementar e testar invalidação de sessão após mudança de privilégio
+- [x] Definir e implementar a política de renovação explícita de sessão administrativa sem extensão silenciosa de privilégios
+- [x] Corrigir a divergência entre a coluna de versão de sessão declarada no esquema e a coluna existente no banco de produção
+- [x] Adicionar evidência automatizada de que a expiração exige nova autenticação e não há renovação silenciosa
+- [x] Validar em publicação a persistência da versão de sessão e registrar a evidência da política de renovação explícita
+- [x] Homologar em sessão autenticada o seletor de perfil em todas as transições publicadas, incluindo retorno de Lançador para Administrador
+- [x] Homologar a transição direta de Lançador para Administrador pelo seletor publicado, sem logout nem navegação direta
+- [x] Atualizar a configuração da CI para remover o aviso de descontinuação do runtime Node 20 em `pnpm/action-setup`
+- [x] Inspecionar os logs e anotações da CI atualizada para comprovar a ausência do aviso de runtime Node 20
+- [x] Validar em ambiente controlado a expiração da sessão com `sessionVersion` e a exigência de nova autenticação sem renovação silenciosa
+- [x] Reexecutar uma sincronização de usuário com `sessionVersion` após o reinício e registrar evidência objetiva sem `ER_BAD_FIELD_ERROR`
+- [x] Adicionar teste ou instrumentação para confirmar a compatibilidade entre o esquema Drizzle e a persistência atual de `sessionVersion`
+- [x] Evoluir a agenda com duração, recurso físico e prevenção de conflitos
+- [ ] Integrar confirmações, alterações e lembretes de reunião ao fluxo operacional
+- [ ] Criar notificações de inscrição, triagem, interesse e reunião com histórico de entrega
+- [x] Disponibilizar consulta administrativa protegida dos eventos de auditoria e indicadores operacionais agregados
+- [x] Atualizar o estágio de maturidade para Em estruturação / Realizei o checkup, Já Lançado e Já lançado com validação
+- [x] Auditar e organizar a estrutura do repositório GitHub para revisão técnica da TI
+- [x] Salvar checkpoint e sincronizar a documentação e automações de revisão técnica com a branch main
+- [x] Registrar evidência remota de README, documentação, modelos de colaboração e CI disponíveis no GitHub
+- [x] Confirmar a árvore Git limpa após a sincronização da organização do repositório
+- [x] Registrar o estado limpo da árvore Git após sincronizar o histórico final da organização
+- [x] Padronizar animações suaves e acessíveis de carregamento nas operações de dados
+- [x] Exibir mensagens claras de sucesso e erro ao salvar cadastros, triagens, interesses, agenda e administradores
+- [x] Validar visualmente e por testes os estados de carregamento e feedback das operações críticas
+- [x] Padronizar também os estados de carregamento das ações administrativas de adicionar e revogar Administrador
+- [x] Comprovar em testes os toasts de sucesso e erro de interesse do Lançador e de salvar ou enviar o projeto do Expert
+- [x] Registrar evidência reproduzível de estados pendente, sucesso e erro nas operações críticas
+- [x] Executar em teste de componente as mutações do projeto do Expert e do interesse do Lançador com cenários de sucesso e erro
+- [x] Cobrir de forma reproduzível os estados pendente, sucesso e erro das ações críticas, incluindo desabilitação durante o envio
+- [x] Registrar a evidência objetiva das interações críticas além das capturas estáticas de layout
+- [x] Avaliar divisão de bundle do frontend para reduzir o aviso de chunk acima de 500 kB no build de produção
+- [x] Melhorar a hierarquia visual, legibilidade e ação principal do pop-up de detalhes do projeto
+- [x] Validar o pop-up de projeto aprimorado em desktop e celular
+- [x] Atualizar os dados de compatibilidade do navegador para eliminar o aviso do servidor de desenvolvimento
+- [x] Avaliar a atualização ou substituição de `@builder.io/vite-plugin-jsx-loc` para compatibilidade declarada com Vite 7
+- [x] Mapear as dependências transitivas descontinuadas reportadas pelo pnpm
+- [x] Avaliar atualizações ou substituições seguras das dependências transitivas descontinuadas sem introduzir regressões
+
+
+## Migração para WebDev gerenciado
+
+- [ ] Migrar a aplicação React, Express e tRPC do repositório público `pedrosouza-ux/parcerias-launch` para o projeto WebDev gerenciado.
+- [ ] Preservar integralmente a landing page pública existente.
+- [ ] Preservar os painéis e fluxos atuais de Administrador, Expert e Lançador.
+- [ ] Preservar o estilo visual atual e refiná-lo para uma experiência elegante, consistente, responsiva e acessível.
+- [ ] Configurar hospedagem HTTPS estável no projeto WebDev e preparar deploys futuros a partir do projeto gerenciado.
+- [ ] Migrar o esquema Drizzle/MySQL/TiDB para o banco gerenciado.
+- [ ] Aplicar e verificar as migrações de inscrições, perfis, projetos, triagens, interesses, reuniões, auditoria e concessões administrativas.
+- [ ] Configurar o OAuth Manus e validar o retorno de autenticação no domínio publicado.
+- [ ] Configurar e validar as variáveis seguras de produção sem expor credenciais no código.
+- [ ] Validar autenticação, perfis e controles de acesso por função para Administrador, Expert e Lançador.
+- [ ] Executar testes Vitest, verificação TypeScript, auditoria de dependências e build de produção.
+- [ ] Validar visualmente a landing page e os principais painéis em desktop e mobile.
+- [ ] Criar um checkpoint final com todas as funcionalidades concluídas antes de orientar a publicação.
+- [ ] Corrigir a dependência ausente `recharts` identificada pelo TypeScript no componente de gráficos após a migração.
+
+
+## Status da execução atual
+
+- [x] Código React, Express e tRPC migrado do repositório público para o projeto WebDev gerenciado.
+- [x] Landing page, painéis e fluxos preservados no projeto migrado.
+- [x] Dependência `recharts` adicionada e verificação TypeScript corrigida.
+- [x] Build de produção aprovado.
+- [x] Suíte CI aprovada: 16 arquivos de teste e 53 testes.
+- [x] Tabelas do domínio de parcerias, índices e chaves estrangeiras aplicados ao banco gerenciado.
+- [x] Coluna `sessionVersion` alinhada no banco gerenciado.
+- [x] OAuth Manus e variáveis seguras de plataforma disponíveis no projeto gerenciado.
+- [x] Landing page validada visualmente em desktop no preview gerenciado.
+- [ ] Homologar os painéis protegidos de Administrador, Expert e Lançador com contas reais ou contas de teste autorizadas.
+- [ ] Salvar o checkpoint final e orientar o usuário a clicar em Publish para disponibilizar o endereço HTTPS estável.
+- [ ] Registrar e corrigir a ausência de participantes demonstrativos no banco caso a homologação utilize o modo operacional de validação.
