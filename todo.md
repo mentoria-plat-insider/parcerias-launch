@@ -238,3 +238,5 @@
 - [ ] Homologar os painéis protegidos de Administrador, Expert e Lançador com contas reais ou contas de teste autorizadas.
 - [ ] Salvar o checkpoint final e orientar o usuário a clicar em Publish para disponibilizar o endereço HTTPS estável.
 - [ ] Registrar e corrigir a ausência de participantes demonstrativos no banco caso a homologação utilize o modo operacional de validação.
+- [ ] Corrigir logo quebrada na barra lateral do painel autenticado e validar o ativo nos temas claro e escuro.
+- [ ] Publicar a versão corrigida do site no endereço HTTPS estável e confirmar o acesso público.
