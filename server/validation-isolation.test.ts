@@ -21,6 +21,7 @@ describe("escopo dos dados demonstrativos", () => {
 
     expect(catalogoDemonstrativo).toEqual([{ projectId: 7, ownerOpenId: "demo-expert-validacao-01" }]);
     expect(isValidationExpertOpenId("participante-real-01")).toBe(false);
+    expect(isValidationExpertOpenId("validation-expert-02")).toBe(true);
     expect(isValidationExpertOpenId(null)).toBe(false);
     expect(canDeclareValidationInterest({ status: "eligible", ownerOpenId: "participante-real-01" })).toBe(false);
     expect(canDeclareValidationInterest({ status: "submitted", ownerOpenId: "demo-expert-validacao-01" })).toBe(false);
@@ -32,7 +33,8 @@ describe("escopo dos dados demonstrativos", () => {
   // sem alterar a regra de isolamento que está sendo verificada.
   it("consulta o catálogo operacional exclusivamente no escopo do projeto demonstrativo", async () => {
     const catalogo = await listValidationEligibleProjects();
-    expect(catalogo.every(({ project }) => project.name.includes("Validação"))).toBe(true);
+    expect(catalogo.length).toBeGreaterThanOrEqual(3);
+    expect(catalogo.every(({ project }) => project.name.includes("[VALIDAÇÃO]"))).toBe(true);
   }, 15_000);
 
   it("consulta interesses e reuniões somente dentro do par demonstrativo", async () => {
@@ -40,8 +42,8 @@ describe("escopo dos dados demonstrativos", () => {
       listValidationLauncherInterests(),
       listValidationExpertInterests(),
     ]);
-    expect(interessesDoLancador.every(({ project }) => project.name.includes("Validação"))).toBe(true);
-    expect(interessesDoExpert.every(({ project }) => project.name.includes("Validação"))).toBe(true);
+    expect(interessesDoLancador.every(({ project }) => project.name.includes("[VALIDAÇÃO]"))).toBe(true);
+    expect(interessesDoExpert.every(({ project }) => project.name.includes("[VALIDAÇÃO]"))).toBe(true);
   });
 
   it("rejeita a declaração demonstrativa para um projeto elegível real", async () => {

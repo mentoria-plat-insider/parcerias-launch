@@ -176,7 +176,10 @@ export const validationOpenIdByRole: Record<ValidationParticipantRole, string> =
 };
 
 export function isValidationExpertOpenId(openId: string | null | undefined) {
-  return openId === validationOpenIdByRole.expert;
+  return typeof openId === "string" && (
+    openId === validationOpenIdByRole.expert ||
+    openId.startsWith("validation-expert-")
+  );
 }
 
 export function canDeclareValidationInterest(project: { status: string; ownerOpenId: string | null | undefined }) {
@@ -477,11 +480,10 @@ export async function listEligibleProjects() {
     .orderBy(desc(projects.updatedAt));
 }
 
-/** Catálogo isolado para o ambiente de validação: somente o projeto do Expert fictício. */
+/** Catálogo isolado para o ambiente de validação: somente projetos dos Experts fictícios. */
 export async function listValidationEligibleProjects() {
   const db = await getDb();
   if (!db) throw new Error("Banco de dados indisponível.");
-  const expertUserId = await getValidationParticipantUserId("expert");
 
   const rows = await db
     .select({
@@ -506,7 +508,7 @@ export async function listValidationEligibleProjects() {
     .from(projects)
     .innerJoin(expertProfiles, eq(projects.expertProfileId, expertProfiles.id))
     .innerJoin(users, eq(expertProfiles.userId, users.id))
-    .where(and(eq(projects.status, "eligible"), eq(expertProfiles.userId, expertUserId)))
+    .where(eq(projects.status, "eligible"))
     .orderBy(desc(projects.updatedAt));
   return rows
     .filter(row => isValidationExpertOpenId(row.ownerOpenId))
@@ -599,13 +601,11 @@ export async function declareValidationProjectInterest(input: { userId: number; 
     .where(and(
       eq(projects.id, input.projectId),
       eq(projects.status, "eligible"),
-      eq(users.openId, validationOpenIdByRole.expert),
     ))
     .limit(1);
   if (!project || !canDeclareValidationInterest({ status: "eligible", ownerOpenId: project.ownerOpenId })) return null;
 
-  const expertUserId = await getValidationParticipantUserId("expert");
-  if (project.ownerOpenId !== validationOpenIdByRole.expert || expertUserId <= 0) return null;
+  if (!isValidationExpertOpenId(project.ownerOpenId)) return null;
   return declareProjectInterest(input);
 }
 
