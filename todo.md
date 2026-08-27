@@ -248,3 +248,8 @@
 - [x] Agendar reunião demonstrativa futura entre o Expert e o Lançador [VALIDAÇÃO] e exibi-la nos dois painéis.
 - [x] Corrigir a agenda vazia na visão de Expert em modo de validação e garantir a exibição da reunião demonstrativa nos dois perfis.
 - [x] Adicionar ou atualizar teste automatizado para a agenda demonstrativa e validar o vínculo de Expert e Lançador.
+- [x] Adicionar botão “Ver detalhes da reunião” nas agendas de Expert e Lançador.
+- [x] Criar pop-up responsivo e acessível com os detalhes completos da reunião e indicação de validação.
+- [x] Testar o modal nos dois painéis e publicar a atualização.
+- [x] Aplicar design elegante e responsivo ao pop-up de detalhes do projeto, preservando o botão e o fluxo de interesse.
+- [x] Validar o pop-up de projeto em desktop e mobile e atualizar os testes/checkpoint.
