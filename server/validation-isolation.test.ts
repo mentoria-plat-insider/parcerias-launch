@@ -44,6 +44,8 @@ describe("escopo dos dados demonstrativos", () => {
     ]);
     expect(interessesDoLancador.every(({ project }) => project.name.includes("[VALIDAÇÃO]"))).toBe(true);
     expect(interessesDoExpert.every(({ project }) => project.name.includes("[VALIDAÇÃO]"))).toBe(true);
+    expect(interessesDoLancador.some(({ meeting }) => meeting?.status === "scheduled")).toBe(true);
+    expect(interessesDoExpert.some(({ meeting }) => meeting?.status === "scheduled")).toBe(true);
   });
 
   it("rejeita a declaração demonstrativa para um projeto elegível real", async () => {

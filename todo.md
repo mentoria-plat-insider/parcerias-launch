@@ -245,3 +245,4 @@
 - [ ] Reativar a publicação atual e confirmar novamente o acesso público pelo domínio HTTPS estável.
 - [x] Corrigir o catálogo do perfil de Lançador para exibir os projetos demonstrativos [VALIDAÇÃO] elegíveis, preservando o isolamento de dados reais.
 - [x] Adicionar ou atualizar teste automatizado para o catálogo demonstrativo e validar a correção no painel.
+- [x] Agendar reunião demonstrativa futura entre o Expert e o Lançador [VALIDAÇÃO] e exibi-la nos dois painéis.
