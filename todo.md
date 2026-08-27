@@ -253,3 +253,5 @@
 - [x] Testar o modal nos dois painéis e publicar a atualização.
 - [x] Aplicar design elegante e responsivo ao pop-up de detalhes do projeto, preservando o botão e o fluxo de interesse.
 - [x] Validar o pop-up de projeto em desktop e mobile e atualizar os testes/checkpoint.
+- [x] Corrigir o corte de texto no cabeçalho do pop-up de projeto em telas estreitas.
+- [x] Validar rolagem, descrição completa e ações do pop-up em mobile e desktop e publicar a correção.
