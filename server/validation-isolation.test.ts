@@ -106,6 +106,11 @@ describe("escopo dos dados demonstrativos", () => {
     const originalName = original.project.name;
     const originalStatus = original.project.status;
     const originalSubmittedAt = original.project.submittedAt;
+    const existingInterest = await db
+      .select({ id: projectInterests.id })
+      .from(projectInterests)
+      .where(eq(projectInterests.projectId, original.project.id))
+      .limit(1);
     const editedName = `${originalName} — fluxo operacional`;
     let createdInterestId: number | null = null;
 
@@ -120,7 +125,7 @@ describe("escopo dos dados demonstrativos", () => {
 
       const interesse = await declareValidationProjectInterest({ userId: launcherUserId, projectId: original.project.id });
       expect(interesse?.projectId).toBe(original.project.id);
-      createdInterestId = interesse?.id ?? null;
+      if (!existingInterest[0] && interesse) createdInterestId = interesse.id;
       const [persistedInterest] = await db.select().from(projectInterests).where(eq(projectInterests.id, interesse!.id)).limit(1);
       expect(persistedInterest?.projectId).toBe(original.project.id);
     } finally {

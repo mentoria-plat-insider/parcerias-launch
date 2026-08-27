@@ -15,7 +15,7 @@ export default function ExpertPainel({ onTrocarPapel, modoVisualizacao = false, 
   const projetoProprio = trpc.projects.mine.useQuery(undefined, { retry: false, enabled: !modoVisualizacao && !modoOperacaoAdmin });
   const projetoValidacao = trpc.projects.validationMine.useQuery(undefined, { retry: false, enabled: modoOperacaoAdmin });
   const reunioesProprias = trpc.interests.mineAsExpert.useQuery(undefined, { retry: false, enabled: !modoVisualizacao && !modoOperacaoAdmin });
-  const reunioesValidacao = trpc.interests.validationMineAsExpert.useQuery(undefined, { retry: false, enabled: modoOperacaoAdmin });
+  const reunioesValidacao = trpc.interests.validationMineAsExpert.useQuery(undefined, { retry: false, enabled: modoOperacaoAdmin, staleTime: 0, refetchOnMount: "always", refetchOnWindowFocus: true });
   const projeto = modoOperacaoAdmin ? projetoValidacao : projetoProprio;
   const reunioes = modoOperacaoAdmin ? reunioesValidacao : reunioesProprias;
   const triagem = useMemo(() => projeto.data?.project?.status === "eligible" ? { nicho: true, avatar: true, roma: true, maturidade: true, observacao: "Projeto validado pela operação e liberado para o catálogo curado." } : { nicho: false, avatar: false, roma: false, maturidade: false, observacao: "A operação fará a triagem manual depois que o projeto for enviado." }, [projeto.data?.project?.status]);

@@ -246,3 +246,5 @@
 - [x] Corrigir o catálogo do perfil de Lançador para exibir os projetos demonstrativos [VALIDAÇÃO] elegíveis, preservando o isolamento de dados reais.
 - [x] Adicionar ou atualizar teste automatizado para o catálogo demonstrativo e validar a correção no painel.
 - [x] Agendar reunião demonstrativa futura entre o Expert e o Lançador [VALIDAÇÃO] e exibi-la nos dois painéis.
+- [x] Corrigir a agenda vazia na visão de Expert em modo de validação e garantir a exibição da reunião demonstrativa nos dois perfis.
+- [x] Adicionar ou atualizar teste automatizado para a agenda demonstrativa e validar o vínculo de Expert e Lançador.
