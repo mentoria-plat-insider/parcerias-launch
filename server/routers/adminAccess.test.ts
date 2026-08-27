@@ -1,6 +1,7 @@
 import { describe, expect, it } from "vitest";
 import { appRouter } from "../routers";
 import { adminAccessInput } from "./adminAccess";
+import { matchesPendingAdminGrant } from "../db";
 import type { TrpcContext } from "../_core/context";
 
 const request = { protocol: "https", headers: {} } as TrpcContext["req"];
@@ -48,5 +49,11 @@ describe("gestão de Administradores", () => {
   it("valida nome e e-mail antes da criação de um acesso administrativo", () => {
     expect(adminAccessInput.safeParse({ fullName: "Ar", email: "invalido" }).success).toBe(false);
     expect(adminAccessInput.safeParse({ fullName: "Arthur Lobo", email: "arthur.lobo@grupoigd.com.br" }).success).toBe(true);
+  });
+
+  it("ativa somente um convite pendente que corresponda ao e-mail autenticado", () => {
+    expect(matchesPendingAdminGrant({ status: "pending", email: "arthur.lobo@grupoigd.com.br" }, " ARTHUR.LOBO@GRUPOIGD.COM.BR ")).toBe(true);
+    expect(matchesPendingAdminGrant({ status: "active", email: "arthur.lobo@grupoigd.com.br" }, "arthur.lobo@grupoigd.com.br")).toBe(false);
+    expect(matchesPendingAdminGrant({ status: "pending", email: "arthur.lobo@grupoigd.com.br" }, "outra.pessoa@grupoigd.com.br")).toBe(false);
   });
 });

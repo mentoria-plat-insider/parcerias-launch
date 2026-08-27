@@ -140,6 +140,38 @@ export async function upsertUser(user: InsertUser): Promise<void> {
   }
 }
 
+export function matchesPendingAdminGrant(grant: { email: string; status: string }, email: string | null | undefined) {
+  return grant.status === "pending" && typeof email === "string" && grant.email === email.trim().toLowerCase();
+}
+
+async function activatePendingAdminGrant(db: NonNullable<Awaited<ReturnType<typeof getDb>>>, user: { id: number; email: string | null }) {
+  const normalizedEmail = user.email?.trim().toLowerCase();
+  if (!normalizedEmail) return false;
+
+  const [pendingGrant] = await db.select().from(adminAccessGrants).where(and(
+    eq(adminAccessGrants.email, normalizedEmail),
+    eq(adminAccessGrants.status, "pending"),
+  )).limit(1);
+  if (!pendingGrant || !matchesPendingAdminGrant(pendingGrant, normalizedEmail)) return false;
+
+  const activatedAt = new Date();
+  await db.update(adminAccessGrants).set({
+    userId: user.id,
+    status: "active",
+    activatedAt,
+    revokedAt: null,
+  }).where(eq(adminAccessGrants.id, pendingGrant.id));
+
+  await createAuditLog({
+    actorUserId: user.id,
+    action: "admin_access_grant.activated",
+    entityType: "adminAccessGrant",
+    entityId: String(pendingGrant.id),
+    metadata: { email: normalizedEmail, fullName: pendingGrant.fullName, status: "active", firstAccess: true },
+  });
+  return true;
+}
+
 export async function getUserByOpenId(openId: string) {
   const db = await getDb();
   if (!db) {
@@ -151,6 +183,7 @@ export async function getUserByOpenId(openId: string) {
   const user = result[0];
   if (!user) return undefined;
 
+  await activatePendingAdminGrant(db, user);
   const normalizedEmail = user.email?.trim().toLowerCase();
   const [grant] = normalizedEmail ? await db.select().from(adminAccessGrants).where(and(
     eq(adminAccessGrants.email, normalizedEmail),

@@ -255,3 +255,6 @@
 - [x] Validar o pop-up de projeto em desktop e mobile e atualizar os testes/checkpoint.
 - [x] Corrigir o corte de texto no cabeçalho do pop-up de projeto em telas estreitas.
 - [x] Validar rolagem, descrição completa e ações do pop-up em mobile e desktop e publicar a correção.
+- [ ] Sincronizar todas as alterações atuais do projeto gerenciado com https://github.com/pedrosouza-ux/parcerias-launch e confirmar o commit remoto.
+- [x] Corrigir a ativação do Administrador autorizado no primeiro login do Arthur, associando a conta pelo e-mail cadastrado e mantendo a proteção do painel.
+- [x] Adicionar teste automatizado para ativação, bloqueio de e-mail divergente e liberação do painel administrativo.
