@@ -238,5 +238,7 @@
 - [ ] Homologar os painéis protegidos de Administrador, Expert e Lançador com contas reais ou contas de teste autorizadas.
 - [ ] Salvar o checkpoint final e orientar o usuário a clicar em Publish para disponibilizar o endereço HTTPS estável.
 - [ ] Registrar e corrigir a ausência de participantes demonstrativos no banco caso a homologação utilize o modo operacional de validação.
-- [ ] Corrigir logo quebrada na barra lateral do painel autenticado e validar o ativo nos temas claro e escuro.
-- [ ] Publicar a versão corrigida do site no endereço HTTPS estável e confirmar o acesso público.
+- [x] Corrigir logo quebrada na barra lateral do painel autenticado e validar o ativo nos temas claro e escuro.
+- [x] Publicar a versão corrigida do site no endereço HTTPS estável e confirmar o acesso público.
+- [x] Criar projetos demonstrativos de Experts, perfis e dados de Lançador claramente marcados como [VALIDAÇÃO], isolados de registros reais e prontos para apresentação.
+- [x] Validar no painel Admin a troca para as visões de Expert e Lançador e a exibição do catálogo demonstrativo.
