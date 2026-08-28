@@ -4,7 +4,7 @@ import { createAuditLog, getProjectByExpertUserId, getValidationParticipantUserI
 import { adminProcedure, protectedProcedure, router } from "../_core/trpc";
 import { requireApprovedParticipation } from "./access";
 
-export const PROJECT_MATURITY_VALUES = ["structuring", "launched", "launched_validated"] as const;
+export const PROJECT_MATURITY_VALUES = ["structuring", "checked_up", "launched", "launched_validated"] as const;
 
 export const projectFields = z.object({
   name: z.string().trim().min(3).max(180),

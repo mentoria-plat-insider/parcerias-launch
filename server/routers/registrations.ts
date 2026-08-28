@@ -15,6 +15,25 @@ export const registrationInput = z.object({
   fullName: z.string().trim().min(3).max(180),
   phone: z.string().trim().max(32).optional(),
   instagram: z.string().trim().max(120).optional(),
+  leoaCompleted: z.boolean().optional(),
+  launchHistoryCount: z.number().int().min(0).max(1000).optional(),
+  revenueLevel: z.string().trim().min(2).max(120).optional(),
+  launchDuration: z.string().trim().min(2).max(120).optional(),
+  mainDifficulties: z.string().trim().min(10).max(3000).optional(),
+  termsAccepted: z.literal(true),
+  regulationAccepted: z.literal(true),
+}).superRefine((input, ctx) => {
+  if (input.requestedRole !== "lancador") return;
+  const required: Array<[keyof typeof input, string]> = [
+    ["leoaCompleted", "Informe se já realizou o Leoa."],
+    ["launchHistoryCount", "Informe quantos lançamentos já fez."],
+    ["revenueLevel", "Informe seu nível de faturamento."],
+    ["launchDuration", "Informe há quanto tempo lança."],
+    ["mainDifficulties", "Descreva as atividades em que tem maior dificuldade."],
+  ];
+  for (const [path, message] of required) {
+    if (input[path] === undefined || input[path] === "") ctx.addIssue({ code: "custom", path: [path], message });
+  }
 });
 
 const reviewInput = z.object({

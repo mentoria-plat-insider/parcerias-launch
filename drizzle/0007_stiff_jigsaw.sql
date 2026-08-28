@@ -1,0 +1,1 @@
+ALTER TABLE `projects` MODIFY COLUMN `maturity` enum('structuring','checked_up','validated','launched','launched_validated') NOT NULL;

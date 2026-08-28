@@ -17,6 +17,13 @@ export default function CadastroParticipacao() {
   const [fullName, setFullName] = useState("");
   const [phone, setPhone] = useState("");
   const [instagram, setInstagram] = useState("");
+  const [leoaCompleted, setLeoaCompleted] = useState(false);
+  const [launchHistoryCount, setLaunchHistoryCount] = useState("");
+  const [revenueLevel, setRevenueLevel] = useState("");
+  const [launchDuration, setLaunchDuration] = useState("");
+  const [mainDifficulties, setMainDifficulties] = useState("");
+  const [termsAccepted, setTermsAccepted] = useState(false);
+  const [regulationAccepted, setRegulationAccepted] = useState(false);
 
   useEffect(() => {
     if (user?.name && !fullName) setFullName(user.name);
@@ -32,11 +39,26 @@ export default function CadastroParticipacao() {
 
   const handleSubmit = (event: FormEvent) => {
     event.preventDefault();
+    if (!termsAccepted || !regulationAccepted) {
+      toast.error("Aceite os Termos de Uso e o Regulamento para finalizar o cadastro.");
+      return;
+    }
+    if (role === "lancador" && (!launchHistoryCount || !revenueLevel || !launchDuration || mainDifficulties.trim().length < 10)) {
+      toast.error("Complete as informações do perfil de Lançador antes de enviar.");
+      return;
+    }
     submit.mutate({
       requestedRole: role,
       fullName,
       phone: phone || undefined,
       instagram: instagram || undefined,
+      leoaCompleted: role === "lancador" ? leoaCompleted : undefined,
+      launchHistoryCount: role === "lancador" ? Number(launchHistoryCount) : undefined,
+      revenueLevel: role === "lancador" ? revenueLevel : undefined,
+      launchDuration: role === "lancador" ? launchDuration : undefined,
+      mainDifficulties: role === "lancador" ? mainDifficulties : undefined,
+      termsAccepted: true,
+      regulationAccepted: true,
     });
   };
 
@@ -61,10 +83,15 @@ export default function CadastroParticipacao() {
           <fieldset><legend className="label-ed text-foreground">Como você participa?</legend><div className="mt-3 grid gap-3 sm:grid-cols-2"><RoleOption checked={role === "expert"} onChange={() => setRole("expert")} icon={<UserRound className="size-5" />} title="Sou Expert" text="Tenho um projeto e uma ROMA para apresentar." /><RoleOption checked={role === "lancador"} onChange={() => setRole("lancador")} icon={<UsersRound className="size-5" />} title="Sou Lançador" text="Quero conhecer projetos elegíveis para parceria." /></div></fieldset>
           <label className="block"><span className="label-ed text-foreground">Nome completo <span className="text-primary">*</span></span><input required maxLength={180} value={fullName} onChange={event => setFullName(event.target.value)} className="mt-2 min-h-11 w-full rounded-md border border-input bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring/60" placeholder="Como a operação deve identificar você" /></label>
           <div className="grid gap-5 sm:grid-cols-2"><label className="block"><span className="label-ed text-foreground">Telefone</span><input value={phone} maxLength={32} onChange={event => setPhone(event.target.value)} className="mt-2 min-h-11 w-full rounded-md border border-input bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring/60" placeholder="(00) 00000-0000" /></label><label className="block"><span className="label-ed text-foreground">Instagram</span><input value={instagram} maxLength={120} onChange={event => setInstagram(event.target.value)} className="mt-2 min-h-11 w-full rounded-md border border-input bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring/60" placeholder="@seuperfil" /></label></div>
+          <div className="rounded-lg border border-border bg-secondary/35 p-4"><div className="flex items-start gap-3"><ShieldCheck className="mt-0.5 size-5 shrink-0 text-primary" /><div><p className="text-sm font-semibold text-foreground">E-mail de acesso</p><p className="mt-1 break-all text-sm text-muted-foreground">{user?.email || "E-mail informado pela conta autenticada"}</p><p className="mt-2 text-xs leading-relaxed text-muted-foreground">Este e-mail vem da sua conta autenticada e será usado para identificar o cadastro.</p></div></div></div>
+          {role === "lancador" && <fieldset className="space-y-5 rounded-lg border border-primary/20 bg-primary/5 p-5"><legend className="label-ed px-1 text-primary">Perfil do Lançador</legend><p className="-mt-2 text-sm leading-relaxed text-muted-foreground">Essas respostas ajudam a operação a entender seu momento e organizar conversas mais conscientes.</p><label className="flex min-h-11 cursor-pointer items-start gap-3 rounded-md py-2"><input type="checkbox" checked={leoaCompleted} onChange={event => setLeoaCompleted(event.target.checked)} className="mt-0.5 size-4 accent-primary" /><span className="text-sm leading-relaxed text-muted-foreground">Já realizei o Leoa.</span></label><div className="grid gap-5 sm:grid-cols-2"><label className="block"><span className="label-ed text-foreground">Quantos lançamentos já fez? <span className="text-primary">*</span></span><input required={role === "lancador"} type="number" min="0" max="1000" value={launchHistoryCount} onChange={event => setLaunchHistoryCount(event.target.value)} className="mt-2 min-h-11 w-full rounded-md border border-input bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring/60" placeholder="Ex.: 3" /></label><label className="block"><span className="label-ed text-foreground">Nível de faturamento <span className="text-primary">*</span></span><select required={role === "lancador"} value={revenueLevel} onChange={event => setRevenueLevel(event.target.value)} className="mt-2 min-h-11 w-full rounded-md border border-input bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring/60"><option value="">Selecione uma faixa</option><option>Até R$ 10 mil</option><option>R$ 10 mil a R$ 50 mil</option><option>R$ 50 mil a R$ 100 mil</option><option>Acima de R$ 100 mil</option><option>Prefiro não informar</option></select></label></div><label className="block"><span className="label-ed text-foreground">Lança há quanto tempo? <span className="text-primary">*</span></span><input required={role === "lancador"} value={launchDuration} onChange={event => setLaunchDuration(event.target.value)} className="mt-2 min-h-11 w-full rounded-md border border-input bg-background px-3 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring/60" placeholder="Ex.: 2 anos" /></label><label className="block"><span className="label-ed text-foreground">Atividades em que tem maior dificuldade <span className="text-primary">*</span></span><textarea required={role === "lancador"} minLength={10} rows={3} value={mainDifficulties} onChange={event => setMainDifficulties(event.target.value)} className="mt-2 w-full resize-y rounded-md border border-input bg-background px-3 py-2.5 text-sm outline-none focus-visible:ring-2 focus-visible:ring-ring/60" placeholder="Ex.: oferta, tráfego, criativos ou organização da operação" /></label></fieldset>}
           <div className="rounded-md border border-primary/20 bg-primary/5 p-4 text-sm leading-relaxed text-muted-foreground"><ShieldCheck className="mr-2 inline size-4 text-primary" />Seus dados serão usados exclusivamente para identificar sua participação e viabilizar a operação da Rodada de Parcerias.</div>
+          <fieldset className="space-y-2 rounded-lg border border-border bg-card p-4"><legend className="label-ed px-1 text-foreground">Aceites obrigatórios</legend><ConfirmacaoLegal marcado={termsAccepted} aoMudar={setTermsAccepted} texto="Li e aceito os Termos de Uso da plataforma." /><ConfirmacaoLegal marcado={regulationAccepted} aoMudar={setRegulationAccepted} texto="Li e aceito o Regulamento da Rodada de Parcerias." /></fieldset>
           <BotaoCarregando type="submit" size="lg" className="w-full" carregando={submit.isPending} textoCarregando="Enviando cadastro…"><>Enviar para aprovação <CheckCircle2 className="size-4" /></></BotaoCarregando>
         </form></div></section></main>;
 }
+
+function ConfirmacaoLegal({ marcado, aoMudar, texto }: { marcado: boolean; aoMudar: (valor: boolean) => void; texto: string }) { return <label className="flex min-h-11 cursor-pointer items-start gap-3 rounded-md py-2 focus-within:bg-accent/40"><input required={!marcado} type="checkbox" checked={marcado} onChange={event => aoMudar(event.target.checked)} className="mt-0.5 size-4 accent-primary" /><span className="text-sm leading-relaxed text-muted-foreground">{texto} <span className="text-primary">*</span></span></label>; }
 
 function RoleOption({ checked, onChange, icon, title, text }: { checked: boolean; onChange: () => void; icon: React.ReactNode; title: string; text: string }) {
   return <label className={`flex min-h-28 cursor-pointer gap-3 rounded-lg border p-4 transition-colors ${checked ? "border-primary bg-primary/5" : "border-border hover:bg-accent/50"}`}><input className="sr-only" type="radio" name="role" checked={checked} onChange={onChange} /><span className="mt-0.5 text-primary">{icon}</span><span><strong className="block text-sm">{title}</strong><span className="mt-1 block text-xs leading-relaxed text-muted-foreground">{text}</span></span></label>;

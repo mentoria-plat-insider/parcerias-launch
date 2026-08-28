@@ -252,6 +252,13 @@ export async function submitRegistration(input: {
   fullName: string;
   phone?: string;
   instagram?: string;
+  leoaCompleted?: boolean;
+  launchHistoryCount?: number;
+  revenueLevel?: string;
+  launchDuration?: string;
+  mainDifficulties?: string;
+  termsAccepted: boolean;
+  regulationAccepted: boolean;
 }) {
   const db = await getDb();
   if (!db) throw new Error("Banco de dados indisponível.");
@@ -262,6 +269,13 @@ export async function submitRegistration(input: {
     fullName: input.fullName,
     phone: input.phone || null,
     instagram: input.instagram || null,
+    termsAcceptedAt: input.termsAccepted ? new Date() : null,
+    regulationAcceptedAt: input.regulationAccepted ? new Date() : null,
+    leoaCompleted: input.leoaCompleted ?? null,
+    launchHistoryCount: input.launchHistoryCount ?? null,
+    revenueLevel: input.revenueLevel || null,
+    launchDuration: input.launchDuration || null,
+    mainDifficulties: input.mainDifficulties || null,
     status: "pending" as const,
     approvedByUserId: null,
     reviewNote: null,
@@ -340,6 +354,11 @@ async function ensureOperationalProfile(registration: {
   requestedRole: "expert" | "lancador";
   fullName: string;
   instagram: string | null;
+  leoaCompleted: boolean | null;
+  launchHistoryCount: number | null;
+  revenueLevel: string | null;
+  launchDuration: string | null;
+  mainDifficulties: string | null;
 }) {
   const db = await getDb();
   if (!db) throw new Error("Banco de dados indisponível.");
@@ -354,6 +373,7 @@ async function ensureOperationalProfile(registration: {
         bio: null,
         instagram: registration.instagram,
         generalSpecialties: [],
+        launchHistoryCount: 0,
       });
     }
     return;
@@ -367,6 +387,11 @@ async function ensureOperationalProfile(registration: {
       headline: null,
       bio: null,
       instagram: registration.instagram,
+      leoaCompleted: registration.leoaCompleted ?? false,
+      launchHistoryCount: registration.launchHistoryCount ?? 0,
+      revenueLevel: registration.revenueLevel,
+      launchDuration: registration.launchDuration,
+      mainDifficulties: registration.mainDifficulties,
       niche: "A definir",
       audienceDescription: "A definir",
       stage: "starting",
@@ -393,7 +418,7 @@ type ProjectDraft = {
   niche?: string;
   subniche?: string;
   specialties?: string[];
-  maturity?: "structuring" | "launched" | "launched_validated";
+  maturity?: "structuring" | "checked_up" | "launched" | "launched_validated";
   avatarDescription?: string;
   pains?: string[];
   ambition?: string;

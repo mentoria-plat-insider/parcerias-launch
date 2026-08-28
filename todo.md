@@ -258,3 +258,31 @@
 - [ ] Sincronizar todas as alterações atuais do projeto gerenciado com https://github.com/pedrosouza-ux/parcerias-launch e confirmar o commit remoto.
 - [x] Corrigir a ativação do Administrador autorizado no primeiro login do Arthur, associando a conta pelo e-mail cadastrado e mantendo a proteção do painel.
 - [x] Adicionar teste automatizado para ativação, bloqueio de e-mail divergente e liberação do painel administrativo.
+
+## Plano de melhorias — Fase 1: Estrutura de Dados e Formulários
+- [x] Aplicar a migração de campos do Lançador e aceites jurídicos no banco gerenciado
+- [x] Exigir no backend os novos dados do Lançador e os aceites de Termos e Regulamento
+- [x] Ampliar o cadastro público com e-mail autenticado, Leoa, histórico, faturamento, tempo de lançamento e dificuldades
+- [x] Implementar as quatro opções de maturidade: nicho/avatar/ROMA, checkup, já lancei e lancei validado
+- [x] Atualizar testes unitários de inscrições e maturidade
+- [x] Validar a Fase 1 com 61 testes aprovados, build de produção aprovado e revisão visual mobile
+
+## Plano de melhorias — Fase 2: Fluxo e Match
+- [ ] Implementar abertura controlada em duas etapas, começando pelos Lançadores
+- [ ] Permitir abertura da seleção de Lançadores somente após autorização da operação para Experts
+- [ ] Fixar o Expert na sala e ajustar agenda, catálogo e encontros para essa dinâmica
+- [ ] Cobrir o fluxo de duas etapas e a regra de sala fixa com testes
+
+## Plano de melhorias — Fase 3: UX e Limites
+- [ ] Criar configuração persistente de capacidade máxima por sala/espaço
+- [ ] Bloquear novas inscrições quando a capacidade operacional for atingida
+- [ ] Adicionar copy educativa sobre compatibilidade de maturidade na interface do Expert
+- [ ] Inserir perguntas estratégicas e reflexivas no cadastro
+- [ ] Cobrir limites e perguntas estratégicas com testes e validação visual
+
+## Histórico desta execução
+- [x] Migrações 0006 e 0007 aplicadas ao banco gerenciado
+- [x] Suíte de testes e build executados após a Fase 1
+- [x] Screenshot mobile do cadastro revisado
+- [ ] Commit e push da Fase 1 para pedrosouza-ux/parcerias-launch
+- [ ] Checkpoint publicado da Fase 1
