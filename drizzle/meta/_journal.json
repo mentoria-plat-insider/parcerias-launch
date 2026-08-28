@@ -64,6 +64,13 @@
       "when": 1787928481684,
       "tag": "0008_lazy_lizard",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "5",
+      "when": 1787928971322,
+      "tag": "0009_clumsy_darkstar",
+      "breakpoints": true
     }
   ]
 }
