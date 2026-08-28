@@ -291,3 +291,5 @@
 - [x] Adicionar testes específicos das novas regras de etapa, capacidade e seleção
 - [x] Commit e push da Fase 1 para pedrosouza-ux/parcerias-launch
 - [x] Checkpoint publicado da Fase 1
+
+- [x] Corrigir a visualização dos Lançadores interessados no projeto próprio do Expert e validar o fluxo em modo real e demonstrativo

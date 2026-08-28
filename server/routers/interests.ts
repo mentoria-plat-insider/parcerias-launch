@@ -18,7 +18,7 @@ export const interestsRouter = router({
   declare: protectedProcedure.input(interestInput).mutation(async ({ ctx, input }) => {
     await requireApprovedParticipation(ctx.user.id, "lancador");
     const settings = await getEventSettings();
-    if (settings.registrationPhase !== "expert_open") throw new TRPCError({ code: "FORBIDDEN", message: "A seleção de projetos será liberada pela operação na segunda etapa." });
+    if (settings.registrationPhase !== "launcher_open" && settings.registrationPhase !== "expert_open") throw new TRPCError({ code: "FORBIDDEN", message: "As inscrições da Rodada estão encerradas." });
     const interest = await declareProjectInterest({ userId: ctx.user.id, projectId: input.projectId });
     if (!interest) throw new TRPCError({ code: "NOT_FOUND", message: "Projeto elegível não encontrado." });
     await createAuditLog({ actorUserId: ctx.user.id, action: "interest.declared", entityType: "interest", entityId: String(interest.id), metadata: { projectId: input.projectId } });

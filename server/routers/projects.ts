@@ -111,7 +111,7 @@ export const projectsRouter = router({
   catalog: protectedProcedure.query(async ({ ctx }) => {
     await requireApprovedParticipation(ctx.user.id, "lancador");
     const settings = await getEventSettings();
-    if (settings.registrationPhase !== "expert_open") return [];
+    if (!["launcher_open", "expert_open"].includes(settings.registrationPhase)) return [];
     return listEligibleProjects();
   }),
 
