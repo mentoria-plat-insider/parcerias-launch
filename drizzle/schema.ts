@@ -57,6 +57,8 @@ export const registrations = mysqlTable(
     }),
     reviewNote: text("reviewNote"),
     reviewedAt: timestamp("reviewedAt"),
+    partnershipGoal: text("partnershipGoal"),
+    readinessReflection: text("readinessReflection"),
     termsAcceptedAt: timestamp("termsAcceptedAt"),
     regulationAcceptedAt: timestamp("regulationAcceptedAt"),
     leoaCompleted: boolean("leoaCompleted"),

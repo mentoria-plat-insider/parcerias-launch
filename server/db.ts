@@ -299,6 +299,8 @@ export async function submitRegistration(input: {
   revenueLevel?: string;
   launchDuration?: string;
   mainDifficulties?: string;
+  partnershipGoal: string;
+  readinessReflection: string;
   termsAccepted: boolean;
   regulationAccepted: boolean;
 }) {
@@ -318,6 +320,8 @@ export async function submitRegistration(input: {
     revenueLevel: input.revenueLevel || null,
     launchDuration: input.launchDuration || null,
     mainDifficulties: input.mainDifficulties || null,
+    partnershipGoal: input.partnershipGoal,
+    readinessReflection: input.readinessReflection,
     status: "pending" as const,
     approvedByUserId: null,
     reviewNote: null,

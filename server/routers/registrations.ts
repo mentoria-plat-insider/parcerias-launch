@@ -20,6 +20,8 @@ export const registrationInput = z.object({
   revenueLevel: z.string().trim().min(2).max(120).optional(),
   launchDuration: z.string().trim().min(2).max(120).optional(),
   mainDifficulties: z.string().trim().min(10).max(3000).optional(),
+  partnershipGoal: z.string().trim().min(10, "Descreva o que você busca nesta parceria.").max(3000),
+  readinessReflection: z.string().trim().min(10, "Reflita sobre o próximo passo que você está pronto para assumir.").max(3000),
   termsAccepted: z.literal(true),
   regulationAccepted: z.literal(true),
 }).superRefine((input, ctx) => {

@@ -44,7 +44,7 @@ describe("inscrições da Rodada de Parcerias", () => {
   it("impede payloads de inscrição fora das regras mínimas", () => {
     expect(() => registrationInput.parse({ requestedRole: "expert", fullName: "  " })).toThrow();
     expect(() => registrationInput.parse({ requestedRole: "lancador", fullName: "Lia Martins", termsAccepted: true, regulationAccepted: true })).toThrow();
-    expect(registrationInput.parse({ requestedRole: "lancador", fullName: "Lia Martins", leoaCompleted: false, launchHistoryCount: 2, revenueLevel: "R$ 10 mil a R$ 50 mil", launchDuration: "2 anos", mainDifficulties: "Tenho dificuldade em estruturar a oferta.", termsAccepted: true, regulationAccepted: true })).toMatchObject({
+    expect(registrationInput.parse({ requestedRole: "lancador", fullName: "Lia Martins", leoaCompleted: false, launchHistoryCount: 2, revenueLevel: "R$ 10 mil a R$ 50 mil", launchDuration: "2 anos", mainDifficulties: "Tenho dificuldade em estruturar a oferta.", partnershipGoal: "Quero encontrar um projeto com sinergia de audiência.", readinessReflection: "Estou pronto para reservar tempo e executar o próximo passo.", termsAccepted: true, regulationAccepted: true })).toMatchObject({
       requestedRole: "lancador",
       fullName: "Lia Martins",
       launchHistoryCount: 2,
