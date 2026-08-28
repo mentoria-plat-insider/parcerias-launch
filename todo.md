@@ -297,3 +297,5 @@
 - [x] Corrigir erro Unexpected token HTML no envio do projeto do Expert e revisar campos obrigatórios
 - [x] Criar aba lateral própria para interesses dos projetos do Expert
 - [x] Validar envio, aba de interesses, testes, build e sincronização GitHub
+
+- [x] Separar a aba de interesses da lista de reuniões e exibir claramente os Lançadores interessados no projeto do Expert
