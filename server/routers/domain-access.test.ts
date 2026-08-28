@@ -29,6 +29,16 @@ describe("proteções dos fluxos operacionais", () => {
     await expect(caller.projects.forAdmin()).rejects.toMatchObject({ code: "FORBIDDEN" });
   });
 
+  it("não permite alterar a etapa operacional sem privilégio administrativo", async () => {
+    const caller = appRouter.createCaller(contextFor("user"));
+    await expect(caller.operations.updateSettings({ registrationPhase: "expert_open", maxLaunchersPerRoom: 10 })).rejects.toMatchObject({ code: "FORBIDDEN" });
+  });
+
+  it("não permite selecionar Lançadores sem participação aprovada", async () => {
+    const caller = appRouter.createCaller(contextFor("user"));
+    await expect(caller.interests.selectLauncher({ launcherProfileId: 1 })).rejects.toMatchObject({ code: "FORBIDDEN" });
+  });
+
   it("não permite agendar uma reunião sem privilégio administrativo", async () => {
     const caller = appRouter.createCaller(contextFor("user"));
     await expect(caller.interests.schedule({ interestId: 1, scheduledFor: new Date(Date.now() + 60_000), location: "Mesa 1" })).rejects.toMatchObject({ code: "FORBIDDEN" });

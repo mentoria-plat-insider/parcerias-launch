@@ -724,6 +724,30 @@ export async function listLauncherInterests(userId: number) {
     .orderBy(desc(projectInterests.createdAt));
 }
 
+export async function listLaunchersForExpertSelection(userId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Banco de dados indisponível.");
+  const expert = await getExpertProfileByUserId(userId);
+  if (!expert) return [];
+  return db.select({ launcher: launcherProfiles, registration: registrations }).from(launcherProfiles).innerJoin(registrations, eq(launcherProfiles.registrationId, registrations.id)).where(eq(registrations.status, "approved")).orderBy(desc(launcherProfiles.createdAt));
+}
+
+export async function selectLauncherForProject(input: { expertUserId: number; launcherProfileId: number }) {
+  const db = await getDb();
+  if (!db) throw new Error("Banco de dados indisponível.");
+  const expert = await getExpertProfileByUserId(input.expertUserId);
+  if (!expert) return null;
+  const [project] = await db.select().from(projects).where(eq(projects.expertProfileId, expert.id)).limit(1);
+  if (!project) return null;
+  const [launcher] = await db.select().from(launcherProfiles).innerJoin(registrations, eq(launcherProfiles.registrationId, registrations.id)).where(and(eq(launcherProfiles.id, input.launcherProfileId), eq(registrations.status, "approved"))).limit(1);
+  if (!launcher) return null;
+  const [existing] = await db.select().from(projectInterests).where(and(eq(projectInterests.projectId, project.id), eq(projectInterests.launcherProfileId, input.launcherProfileId))).limit(1);
+  if (existing) return existing;
+  const [created] = await db.insert(projectInterests).values({ projectId: project.id, launcherProfileId: input.launcherProfileId, status: "requested" }).$returningId();
+  const [interest] = await db.select().from(projectInterests).where(eq(projectInterests.id, created.id)).limit(1);
+  return interest ?? null;
+}
+
 export async function listExpertInterests(userId: number) {
   const db = await getDb();
   if (!db) throw new Error("Banco de dados indisponível.");

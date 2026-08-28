@@ -1,6 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { createAuditLog, declareProjectInterest, declareValidationProjectInterest, findMeetingSchedulingConflict, getEventSettings, getExpertFixedRoomForInterest, countScheduledMeetingsForResource, getValidationParticipantUserId, listExpertInterests, listInterestsForAdmin, listLauncherInterests, listValidationExpertInterests, listValidationLauncherInterests, scheduleMeeting, setExpertFixedRoomForInterest } from "../db";
+import { createAuditLog, declareProjectInterest, declareValidationProjectInterest, findMeetingSchedulingConflict, getEventSettings, getExpertFixedRoomForInterest, countScheduledMeetingsForResource, getValidationParticipantUserId, listExpertInterests, listInterestsForAdmin, listLaunchersForExpertSelection, selectLauncherForProject, listLauncherInterests, listValidationExpertInterests, listValidationLauncherInterests, scheduleMeeting, setExpertFixedRoomForInterest } from "../db";
 import { adminProcedure, protectedProcedure, router } from "../_core/trpc";
 import { requireApprovedParticipation } from "./access";
 
@@ -53,6 +53,23 @@ export const interestsRouter = router({
   mineAsExpert: protectedProcedure.query(async ({ ctx }) => {
     await requireApprovedParticipation(ctx.user.id, "expert");
     return listExpertInterests(ctx.user.id);
+  }),
+
+  launchersForExpertSelection: protectedProcedure.query(async ({ ctx }) => {
+    await requireApprovedParticipation(ctx.user.id, "expert");
+    const settings = await getEventSettings();
+    if (settings.registrationPhase !== "expert_open") return [];
+    return listLaunchersForExpertSelection(ctx.user.id);
+  }),
+
+  selectLauncher: protectedProcedure.input(z.object({ launcherProfileId: z.number().int().positive() })).mutation(async ({ ctx, input }) => {
+    await requireApprovedParticipation(ctx.user.id, "expert");
+    const settings = await getEventSettings();
+    if (settings.registrationPhase !== "expert_open") throw new TRPCError({ code: "FORBIDDEN", message: "A seleção de Lançadores ainda não foi aberta pela operação." });
+    const interest = await selectLauncherForProject({ expertUserId: ctx.user.id, launcherProfileId: input.launcherProfileId });
+    if (!interest) throw new TRPCError({ code: "NOT_FOUND", message: "Projeto ou Lançador aprovado não encontrado." });
+    await createAuditLog({ actorUserId: ctx.user.id, action: "interest.requested", entityType: "interest", entityId: String(interest.id), metadata: { launcherProfileId: input.launcherProfileId } });
+    return interest;
   }),
 
   validationMineAsExpert: adminProcedure.query(async () => {
