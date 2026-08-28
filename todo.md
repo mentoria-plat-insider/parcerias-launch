@@ -268,15 +268,15 @@
 - [x] Validar a Fase 1 com 61 testes aprovados, build de produção aprovado e revisão visual mobile
 
 ## Plano de melhorias — Fase 2: Fluxo e Match
-- [ ] Implementar abertura controlada em duas etapas, começando pelos Lançadores
+- [x] Implementar abertura controlada em duas etapas, começando pelos Lançadores
 - [ ] Permitir abertura da seleção de Lançadores somente após autorização da operação para Experts
-- [ ] Fixar o Expert na sala e ajustar agenda, catálogo e encontros para essa dinâmica
+- [x] Fixar o Expert na sala e ajustar agenda, catálogo e encontros para essa dinâmica
 - [ ] Cobrir o fluxo de duas etapas e a regra de sala fixa com testes
 
 ## Plano de melhorias — Fase 3: UX e Limites
-- [ ] Criar configuração persistente de capacidade máxima por sala/espaço
-- [ ] Bloquear novas inscrições quando a capacidade operacional for atingida
-- [ ] Adicionar copy educativa sobre compatibilidade de maturidade na interface do Expert
+- [x] Criar configuração persistente de capacidade máxima por sala/espaço
+- [x] Bloquear novas inscrições quando a capacidade operacional for atingida
+- [x] Adicionar copy educativa sobre compatibilidade de maturidade na interface do Expert
 - [ ] Inserir perguntas estratégicas e reflexivas no cadastro
 - [ ] Cobrir limites e perguntas estratégicas com testes e validação visual
 
@@ -284,5 +284,10 @@
 - [x] Migrações 0006 e 0007 aplicadas ao banco gerenciado
 - [x] Suíte de testes e build executados após a Fase 1
 - [x] Screenshot mobile do cadastro revisado
-- [ ] Commit e push da Fase 1 para pedrosouza-ux/parcerias-launch
-- [ ] Checkpoint publicado da Fase 1
+- [x] Configuração de etapas, limite por sala, trava de capacidade e sala fixa implementados
+- [x] Copy educativa de maturidade adicionada ao painel de Expert
+- [ ] Implementar seleção explícita de Lançadores pelos Experts
+- [ ] Inserir perguntas estratégicas e reflexivas persistidas no cadastro
+- [ ] Adicionar testes específicos das novas regras de etapa, capacidade e seleção
+- [x] Commit e push da Fase 1 para pedrosouza-ux/parcerias-launch
+- [x] Checkpoint publicado da Fase 1

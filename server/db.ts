@@ -4,6 +4,7 @@ import {
   adminAccessGrants,
   auditLogs,
   expertProfiles,
+  eventSettings,
   InsertUser,
   launcherProfiles,
   meetings,
@@ -18,6 +19,47 @@ import { ENV } from './_core/env';
 let _db: ReturnType<typeof drizzle> | null = null;
 
 // Lazily create the drizzle instance so local tooling can run without a DB.
+export type EventRegistrationPhase = "launcher_open" | "expert_open" | "closed";
+
+export async function getEventSettings() {
+  const db = await getDb();
+  if (!db) throw new Error("Banco de dados indisponível.");
+  const [settings] = await db.select().from(eventSettings).limit(1);
+  if (settings) return settings;
+  const [created] = await db.insert(eventSettings).values({ registrationPhase: "launcher_open", maxLaunchersPerRoom: 10 }).$returningId();
+  const [fallback] = await db.select().from(eventSettings).where(eq(eventSettings.id, created.id)).limit(1);
+  return fallback!;
+}
+
+export async function updateEventSettings(input: { registrationPhase: EventRegistrationPhase; maxLaunchersPerRoom: number; updatedByUserId: number }) {
+  const db = await getDb();
+  if (!db) throw new Error("Banco de dados indisponível.");
+  const current = await getEventSettings();
+  await db.update(eventSettings).set(input).where(eq(eventSettings.id, current.id));
+  return getEventSettings();
+}
+
+export async function getExpertFixedRoomForInterest(interestId: number) {
+  const db = await getDb();
+  if (!db) throw new Error("Banco de dados indisponível.");
+  const [row] = await db.select({ fixedRoom: expertProfiles.fixedRoom }).from(projectInterests).innerJoin(projects, eq(projectInterests.projectId, projects.id)).innerJoin(expertProfiles, eq(projects.expertProfileId, expertProfiles.id)).where(eq(projectInterests.id, interestId)).limit(1);
+  return row?.fixedRoom ?? null;
+}
+
+export async function countScheduledMeetingsForResource(resource: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Banco de dados indisponível.");
+  const [row] = await db.select({ total: sql<number>`count(*)` }).from(meetings).where(and(eq(meetings.resource, resource), eq(meetings.status, "scheduled")));
+  return Number(row?.total ?? 0);
+}
+
+export async function setExpertFixedRoomForInterest(interestId: number, fixedRoom: string) {
+  const db = await getDb();
+  if (!db) throw new Error("Banco de dados indisponível.");
+  const [row] = await db.select({ expertProfileId: projects.expertProfileId }).from(projectInterests).innerJoin(projects, eq(projectInterests.projectId, projects.id)).where(eq(projectInterests.id, interestId)).limit(1);
+  if (row) await db.update(expertProfiles).set({ fixedRoom }).where(eq(expertProfiles.id, row.expertProfileId));
+}
+
 export async function getDb() {
   if (!_db && process.env.DATABASE_URL) {
     try {

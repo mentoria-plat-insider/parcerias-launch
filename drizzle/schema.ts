@@ -89,6 +89,7 @@ export const expertProfiles = mysqlTable(
     avatarUrl: varchar("avatarUrl", { length: 2048 }),
     instagram: varchar("instagram", { length: 120 }),
     generalSpecialties: json("generalSpecialties").$type<string[]>().notNull(),
+    fixedRoom: varchar("fixedRoom", { length: 120 }),
     launchHistoryCount: int("launchHistoryCount").default(0).notNull(),
     diagnosticCompleted: boolean("diagnosticCompleted").default(false).notNull(),
     createdAt: timestamp("createdAt").defaultNow().notNull(),
@@ -245,6 +246,16 @@ export const meetings = mysqlTable(
     index("meetings_resource_schedule_idx").on(table.resource, table.scheduledFor),
   ],
 );
+
+/** Singleton operational controls for the staged event flow and room capacity. */
+export const eventSettings = mysqlTable("eventSettings", {
+  id: int("id").autoincrement().primaryKey(),
+  registrationPhase: mysqlEnum("registrationPhase", ["launcher_open", "expert_open", "closed"]).default("launcher_open").notNull(),
+  maxLaunchersPerRoom: int("maxLaunchersPerRoom").default(10).notNull(),
+  updatedByUserId: int("updatedByUserId").references(() => users.id, { onDelete: "set null" }),
+  createdAt: timestamp("createdAt").defaultNow().notNull(),
+  updatedAt: timestamp("updatedAt").defaultNow().onUpdateNow().notNull(),
+});
 
 /** Immutable accountability trail for administrative decisions and sensitive changes. */
 export const auditLogs = mysqlTable(

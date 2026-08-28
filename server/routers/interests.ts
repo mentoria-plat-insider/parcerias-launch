@@ -1,6 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { createAuditLog, declareProjectInterest, declareValidationProjectInterest, findMeetingSchedulingConflict, getValidationParticipantUserId, listExpertInterests, listInterestsForAdmin, listLauncherInterests, listValidationExpertInterests, listValidationLauncherInterests, scheduleMeeting } from "../db";
+import { createAuditLog, declareProjectInterest, declareValidationProjectInterest, findMeetingSchedulingConflict, getEventSettings, getExpertFixedRoomForInterest, countScheduledMeetingsForResource, getValidationParticipantUserId, listExpertInterests, listInterestsForAdmin, listLauncherInterests, listValidationExpertInterests, listValidationLauncherInterests, scheduleMeeting, setExpertFixedRoomForInterest } from "../db";
 import { adminProcedure, protectedProcedure, router } from "../_core/trpc";
 import { requireApprovedParticipation } from "./access";
 
@@ -17,6 +17,8 @@ const meetingInput = z.object({
 export const interestsRouter = router({
   declare: protectedProcedure.input(interestInput).mutation(async ({ ctx, input }) => {
     await requireApprovedParticipation(ctx.user.id, "lancador");
+    const settings = await getEventSettings();
+    if (settings.registrationPhase !== "expert_open") throw new TRPCError({ code: "FORBIDDEN", message: "A seleção de projetos será liberada pela operação na segunda etapa." });
     const interest = await declareProjectInterest({ userId: ctx.user.id, projectId: input.projectId });
     if (!interest) throw new TRPCError({ code: "NOT_FOUND", message: "Projeto elegível não encontrado." });
     await createAuditLog({ actorUserId: ctx.user.id, action: "interest.declared", entityType: "interest", entityId: String(interest.id), metadata: { projectId: input.projectId } });
@@ -65,6 +67,10 @@ export const interestsRouter = router({
     if (input.scheduledFor.getTime() < Date.now()) {
       throw new TRPCError({ code: "BAD_REQUEST", message: "A reunião precisa ser agendada para uma data futura." });
     }
+    const settings = await getEventSettings();
+    const fixedRoom = await getExpertFixedRoomForInterest(input.interestId);
+    if (fixedRoom && fixedRoom !== input.resource) throw new TRPCError({ code: "CONFLICT", message: `Este Expert está fixo na sala ${fixedRoom}.` });
+    if (await countScheduledMeetingsForResource(input.resource) >= settings.maxLaunchersPerRoom) throw new TRPCError({ code: "CONFLICT", message: `A sala atingiu o limite de ${settings.maxLaunchersPerRoom} Lançadores.` });
     const conflict = await findMeetingSchedulingConflict(input);
     if (conflict) {
       const messages = {
@@ -76,6 +82,7 @@ export const interestsRouter = router({
     }
     const meeting = await scheduleMeeting({ ...input, scheduledByUserId: ctx.user.id });
     if (!meeting) throw new TRPCError({ code: "NOT_FOUND", message: "Interesse não encontrado." });
+    if (!fixedRoom) await setExpertFixedRoomForInterest(input.interestId, input.resource);
     await createAuditLog({ actorUserId: ctx.user.id, action: "meeting.scheduled", entityType: "meeting", entityId: String(meeting.id), metadata: { interestId: input.interestId, resource: input.resource, durationMinutes: input.durationMinutes } });
     return meeting;
   }),

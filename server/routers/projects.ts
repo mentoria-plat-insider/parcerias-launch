@@ -1,6 +1,6 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { createAuditLog, getProjectByExpertUserId, getValidationParticipantUserId, listEligibleProjects, listProjectsForAdmin, listValidationEligibleProjects, reviewProject, saveProjectDraft } from "../db";
+import { createAuditLog, getEventSettings, getProjectByExpertUserId, getValidationParticipantUserId, listEligibleProjects, listProjectsForAdmin, listValidationEligibleProjects, reviewProject, saveProjectDraft } from "../db";
 import { adminProcedure, protectedProcedure, router } from "../_core/trpc";
 import { requireApprovedParticipation } from "./access";
 
@@ -110,6 +110,8 @@ export const projectsRouter = router({
 
   catalog: protectedProcedure.query(async ({ ctx }) => {
     await requireApprovedParticipation(ctx.user.id, "lancador");
+    const settings = await getEventSettings();
+    if (settings.registrationPhase !== "expert_open") return [];
     return listEligibleProjects();
   }),
 
