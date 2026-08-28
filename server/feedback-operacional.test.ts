@@ -12,9 +12,13 @@ describe("feedback operacional das ações persistentes", () => {
     expect(pagina).toContain('toast.success("Rascunho salvo com segurança")');
     expect(pagina).toContain('toast.success("Cadastro enviado para validação")');
     expect(pagina).toContain('toast.error("Não foi possível salvar o rascunho"');
-    expect(pagina).toContain('toast.error("Revise os campos obrigatórios"');
+    expect(pagina).toContain('toast.error("Não foi possível enviar o projeto"');
     expect(pagina).toContain('textoCarregando="Salvando rascunho…"');
     expect(pagina).toContain('textoCarregando="Enviando para curadoria…"');
+    const menu = lerPagina("../components/PainelLayout.tsx");
+    expect(menu).toContain('Interesses dos projetos');
+    expect(pagina).toContain('const obrigatorios');
+    expect(pagina).toContain('link principal válido');
   });
 
   it("mantém sucesso, erro e progresso ao declarar interesse como Lançador", () => {

@@ -293,3 +293,7 @@
 - [x] Checkpoint publicado da Fase 1
 
 - [x] Corrigir a visualização dos Lançadores interessados no projeto próprio do Expert e validar o fluxo em modo real e demonstrativo
+
+- [x] Corrigir erro Unexpected token HTML no envio do projeto do Expert e revisar campos obrigatórios
+- [x] Criar aba lateral própria para interesses dos projetos do Expert
+- [x] Validar envio, aba de interesses, testes, build e sincronização GitHub

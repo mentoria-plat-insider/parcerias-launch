@@ -80,20 +80,46 @@ export default function CadastroProjeto({ modoOperacaoAdmin = false }: { modoOpe
   });
   const enviarProjeto = trpc.projects.submit.useMutation({
     onSuccess: async () => { await utils.projects.mine.invalidate(); setEnviado(true); toast.success("Cadastro enviado para validação"); },
-    onError: erro => toast.error("Revise os campos obrigatórios", { description: erro.message }),
+    onError: erro => toast.error("Não foi possível enviar o projeto", { description: erro.message.includes("Unexpected token") ? "A resposta do servidor não foi válida. Atualize a página e tente novamente." : erro.message }),
   });
   const enviarProjetoValidacao = trpc.projects.validationSubmit.useMutation({
     onSuccess: async () => { await utils.projects.validationMine.invalidate(); setEnviado(true); toast.success("Projeto demonstrativo enviado para validação"); },
-    onError: erro => toast.error("Revise os campos obrigatórios", { description: erro.message }),
+    onError: erro => toast.error("Não foi possível enviar o projeto", { description: erro.message.includes("Unexpected token") ? "A resposta do servidor não foi válida. Atualize a página e tente novamente." : erro.message }),
   });
   const salvar = () => (modoOperacaoAdmin ? salvarRascunhoValidacao : salvarRascunho).mutate(dadosParciais());
   const enviar = () => {
+    const obrigatorios: Array<{ campo: string; valor: boolean; etapa: Etapa }> = [
+      { campo: "nome do projeto", valor: dados.nome.trim().length >= 3, etapa: 1 },
+      { campo: "nicho principal", valor: dados.nicho.trim().length >= 2, etapa: 1 },
+      { campo: "subnicho", valor: dados.subnicho.trim().length >= 2, etapa: 1 },
+      { campo: "especialidades", valor: separar(dados.especialidades).length >= 1, etapa: 1 },
+      { campo: "maturidade do projeto", valor: Boolean(maturidadeParaBanco[dados.maturidade as keyof typeof maturidadeParaBanco]), etapa: 1 },
+      { campo: "Avatar", valor: dados.avatar.trim().length >= 20, etapa: 2 },
+      { campo: "duas dores principais", valor: separar(dados.dores).length >= 2, etapa: 2 },
+      { campo: "desejo ou ambição", valor: dados.ambicao.trim().length >= 10, etapa: 2 },
+      { campo: "ROMA", valor: dados.roma.trim().length >= 15, etapa: 2 },
+      { campo: "mecanismo ou abordagem", valor: dados.mecanismo.trim().length >= 3, etapa: 2 },
+      { campo: "formato da oferta", valor: dados.formato.trim().length >= 2, etapa: 3 },
+      { campo: "faixa de preço", valor: dados.preco.trim().length >= 2, etapa: 3 },
+      { campo: "canal ou audiência", valor: dados.canal.trim().length >= 2, etapa: 3 },
+      { campo: "link principal válido", valor: (dados.link.trim().startsWith("http://") || dados.link.trim().startsWith("https://")) && dados.link.trim().length > 10, etapa: 3 },
+    ];
+    const pendente = obrigatorios.find(item => !item.valor);
+    if (pendente) {
+      toast.error(`Revise o campo obrigatório: ${pendente.campo}.`);
+      setEtapa(pendente.etapa);
+      return;
+    }
+    const maturidade = maturidadeParaBanco[dados.maturidade as keyof typeof maturidadeParaBanco];
+    if ((maturidade === "launched" || maturidade === "launched_validated") && dados.resultados.trim().length < 3) {
+      toast.error("Informe resultados ou evidências para projetos já lançados.");
+      setEtapa(3);
+      return;
+    }
     if (!dados.veracidade || !dados.curadoria || !dados.exposicao) {
       toast.error("Confirme as três declarações antes de enviar");
       return;
     }
-    const maturidade = maturidadeParaBanco[dados.maturidade as keyof typeof maturidadeParaBanco];
-    if (!maturidade) { toast.error("Informe a maturidade do projeto antes de enviar"); setEtapa(1); return; }
     (modoOperacaoAdmin ? enviarProjetoValidacao : enviarProjeto).mutate({ ...dadosParciais(), maturity: maturidade, informationConfirmed: true, curationAuthorized: true, exposureAcknowledged: true });
   };
 
