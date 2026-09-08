@@ -1,0 +1,4 @@
+# Cloudflare Pages: proxy API calls to the Vercel-hosted backend.
+# Replace VERCEL_API_DOMAIN with your production Vercel domain after the first deploy.
+/api/* https://VERCEL_API_DOMAIN/api/:splat 200
+/* /index.html 200
