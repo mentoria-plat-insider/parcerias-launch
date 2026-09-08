@@ -18,11 +18,17 @@ let appPromise: Promise<Express> | null = null;
 /**
  * Builds the Express app once and caches it, so serverless runtimes
  * (Vercel) reuse the same instance across warm invocations instead of
- * re-registering middleware/routes on every request.
+ * re-registering middleware/routes on every request. If building the app
+ * fails (e.g. transient DB connectivity issue during cold start), the
+ * failed promise is NOT cached, so the next request gets a fresh attempt
+ * instead of every future request crashing forever.
  */
 export function buildApp(server?: Server): Promise<Express> {
   if (!appPromise) {
-    appPromise = createApp(server);
+    appPromise = createApp(server).catch(error => {
+      appPromise = null;
+      throw error;
+    });
   }
   return appPromise;
 }
@@ -31,7 +37,13 @@ async function createApp(server?: Server): Promise<Express> {
   const app = express();
   app.set("trust proxy", 1);
   app.disable("x-powered-by");
-  await ensureOwnerAdmin();
+  try {
+    await ensureOwnerAdmin();
+  } catch (error) {
+    // Never let a DB/provisioning hiccup during cold start take the whole
+    // app down — the owner-admin bootstrap will simply be retried later.
+    console.error("[Bootstrap] ensureOwnerAdmin failed:", error);
+  }
   app.use(
     securityHeaders({
       isProduction: process.env.NODE_ENV === "production",
