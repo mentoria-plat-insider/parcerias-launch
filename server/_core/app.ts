@@ -7,7 +7,6 @@ import { registerStorageProxy } from "./storageProxy";
 import { appRouter } from "../routers";
 import { ensureOwnerAdmin } from "../db";
 import { createContext } from "./context";
-import { serveStatic, setupVite } from "./vite";
 import {
   createRateLimiter,
   noStoreApiResponses,
@@ -71,10 +70,14 @@ async function createApp(server?: Server): Promise<Express> {
   );
   // In a serverless runtime (Vercel) there is no local build to serve and
   // no HMR dev server — only the API routes above are needed, static
-  // assets are served by the platform's CDN/build output directly.
+  // assets are served by the platform's CDN/build output directly. The
+  // `./vite` module (and its transitive `vite`/plugin dependencies) is only
+  // imported here, lazily, so it never gets pulled into the serverless
+  // function bundle.
   if (process.env.VERCEL) {
     return app;
   }
+  const { serveStatic, setupVite } = await import("./vite");
   // development mode uses Vite, production mode uses static files
   if (process.env.NODE_ENV === "development" && server) {
     await setupVite(app, server);
