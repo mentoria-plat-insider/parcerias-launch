@@ -19,7 +19,7 @@ jobs:
       VITE_OAUTH_PORTAL_URL: https://portal.invalid
     steps:
       - name: Obter código
-        uses: actions/checkout@v5
+        uses: actions/checkout@v7
 
       - name: Configurar pnpm
         uses: pnpm/action-setup@v6
