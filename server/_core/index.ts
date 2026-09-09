@@ -1,6 +1,7 @@
 import { createServer } from "http";
 import net from "net";
 import { buildApp } from "./app";
+import { serveStatic, setupVite } from "./vite";
 
 function isPortAvailable(port: number): Promise<boolean> {
   return new Promise(resolve => {
@@ -23,8 +24,17 @@ async function findAvailablePort(startPort: number = 3000): Promise<number> {
 
 async function startServer() {
   const httpServer = createServer();
-  const app = await buildApp(httpServer);
+  const app = await buildApp();
   httpServer.on("request", app);
+
+  // development mode uses Vite, production mode uses static files. This is
+  // only relevant for the traditional Node server (local dev / `npm start`)
+  // — the Vercel serverless function never reaches this file.
+  if (process.env.NODE_ENV === "development") {
+    await setupVite(app, httpServer);
+  } else {
+    serveStatic(app);
+  }
 
   const preferredPort = parseInt(process.env.PORT || "3000");
   const port = await findAvailablePort(preferredPort);

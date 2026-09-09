@@ -1,6 +1,5 @@
 import "dotenv/config";
 import express, { type Express } from "express";
-import type { Server } from "http";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
 import { registerOAuthRoutes } from "./oauth";
 import { registerStorageProxy } from "./storageProxy";
@@ -16,16 +15,26 @@ import {
 let appPromise: Promise<Express> | null = null;
 
 /**
- * Builds the Express app once and caches it, so serverless runtimes
- * (Vercel) reuse the same instance across warm invocations instead of
- * re-registering middleware/routes on every request. If building the app
- * fails (e.g. transient DB connectivity issue during cold start), the
- * failed promise is NOT cached, so the next request gets a fresh attempt
- * instead of every future request crashing forever.
+ * Builds the Express app (API routes only — no static file serving or Vite
+ * dev middleware, that is the caller's responsibility, see index.ts) once
+ * and caches it, so serverless runtimes (Vercel) reuse the same instance
+ * across warm invocations instead of re-registering middleware/routes on
+ * every request. If building the app fails (e.g. transient DB connectivity
+ * issue during cold start), the failed promise is NOT cached, so the next
+ * request gets a fresh attempt instead of every future request crashing
+ * forever.
+ *
+ * Deliberately has zero imports of "./vite" (or anything that pulls in the
+ * `vite` package/plugins): this module is bundled as-is for the Vercel
+ * serverless function, and any top-level `import` of a dev-only dependency
+ * would be hoisted to the top of that bundle by ESM semantics and executed
+ * unconditionally, even if only referenced behind an `if` branching on
+ * NODE_ENV — crashing the function if that dependency isn't present in the
+ * function's runtime.
  */
-export function buildApp(server?: Server): Promise<Express> {
+export function buildApp(): Promise<Express> {
   if (!appPromise) {
-    appPromise = createApp(server).catch(error => {
+    appPromise = createApp().catch(error => {
       appPromise = null;
       throw error;
     });
@@ -33,7 +42,7 @@ export function buildApp(server?: Server): Promise<Express> {
   return appPromise;
 }
 
-async function createApp(server?: Server): Promise<Express> {
+async function createApp(): Promise<Express> {
   const app = express();
   app.set("trust proxy", 1);
   app.disable("x-powered-by");
@@ -80,21 +89,5 @@ async function createApp(server?: Server): Promise<Express> {
       createContext,
     })
   );
-  // In a serverless runtime (Vercel) there is no local build to serve and
-  // no HMR dev server — only the API routes above are needed, static
-  // assets are served by the platform's CDN/build output directly. The
-  // `./vite` module (and its transitive `vite`/plugin dependencies) is only
-  // imported here, lazily, so it never gets pulled into the serverless
-  // function bundle.
-  if (process.env.VERCEL) {
-    return app;
-  }
-  const { serveStatic, setupVite } = await import("./vite");
-  // development mode uses Vite, production mode uses static files
-  if (process.env.NODE_ENV === "development" && server) {
-    await setupVite(app, server);
-  } else {
-    serveStatic(app);
-  }
   return app;
 }
