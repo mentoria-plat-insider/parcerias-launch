@@ -1,6 +1,6 @@
 import { z } from "zod";
-import { getEventSettings, getOperationalMetricsForAdmin, listAuditEventsForAdmin, updateEventSettings } from "../db";
-import { adminProcedure, router } from "../_core/trpc";
+import { getEventSettings, getOperationalMetricsForAdmin, listAuditEventsForAdmin, updateEventSettings } from "../db.js";
+import { adminProcedure, router } from "../_core/trpc.js";
 
 const auditEventsInput = z.object({
   limit: z.number().int().min(1).max(100).default(50),

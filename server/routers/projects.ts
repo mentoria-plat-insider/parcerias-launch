@@ -1,8 +1,8 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { createAuditLog, getEventSettings, getProjectByExpertUserId, getValidationParticipantUserId, listEligibleProjects, listProjectsForAdmin, listValidationEligibleProjects, reviewProject, saveProjectDraft } from "../db";
-import { adminProcedure, protectedProcedure, router } from "../_core/trpc";
-import { requireApprovedParticipation } from "./access";
+import { createAuditLog, getEventSettings, getProjectByExpertUserId, getValidationParticipantUserId, listEligibleProjects, listProjectsForAdmin, listValidationEligibleProjects, reviewProject, saveProjectDraft } from "../db.js";
+import { adminProcedure, protectedProcedure, router } from "../_core/trpc.js";
+import { requireApprovedParticipation } from "./access.js";
 
 export const PROJECT_MATURITY_VALUES = ["structuring", "checked_up", "launched", "launched_validated"] as const;
 

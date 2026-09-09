@@ -7,8 +7,8 @@ import {
   listPendingRegistrations,
   submitRegistration,
   reviewRegistration,
-} from "../db";
-import { adminProcedure, protectedProcedure, router } from "../_core/trpc";
+} from "../db.js";
+import { adminProcedure, protectedProcedure, router } from "../_core/trpc.js";
 
 export const registrationInput = z.object({
   requestedRole: z.enum(["expert", "lancador"]),

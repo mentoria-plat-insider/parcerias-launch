@@ -1,7 +1,7 @@
 import { TRPCError } from "@trpc/server";
 import { z } from "zod";
-import { createAdminAccessGrant, listAdminAccessGrants, revokeAdminAccessGrant } from "../db";
-import { adminProcedure, router } from "../_core/trpc";
+import { createAdminAccessGrant, listAdminAccessGrants, revokeAdminAccessGrant } from "../db.js";
+import { adminProcedure, router } from "../_core/trpc.js";
 
 export const adminAccessInput = z.object({
   fullName: z.string().trim().min(3, "Informe o nome completo.").max(180),

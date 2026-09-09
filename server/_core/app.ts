@@ -1,16 +1,16 @@
 import "dotenv/config";
 import express, { type Express } from "express";
 import { createExpressMiddleware } from "@trpc/server/adapters/express";
-import { registerOAuthRoutes } from "./oauth";
-import { registerStorageProxy } from "./storageProxy";
-import { appRouter } from "../routers";
-import { ensureOwnerAdmin } from "../db";
-import { createContext } from "./context";
+import { registerOAuthRoutes } from "./oauth.js";
+import { registerStorageProxy } from "./storageProxy.js";
+import { appRouter } from "../routers.js";
+import { ensureOwnerAdmin } from "../db.js";
+import { createContext } from "./context.js";
 import {
   createRateLimiter,
   noStoreApiResponses,
   securityHeaders,
-} from "../security";
+} from "../security.js";
 
 let appPromise: Promise<Express> | null = null;
 

@@ -1,5 +1,5 @@
 import { TRPCError } from "@trpc/server";
-import { getRegistrationByUserId } from "../db";
+import { getRegistrationByUserId } from "../db.js";
 
 export async function requireApprovedParticipation(userId: number, role: "expert" | "lancador") {
   const registration = await getRegistrationByUserId(userId);
